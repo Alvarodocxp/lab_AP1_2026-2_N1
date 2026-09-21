@@ -107,8 +107,17 @@ public class PessoaFisica {
      * @return Double não negativo.
      */
     public double credito() {
-        //TODO
-        return 0;
+        //TODO TERMINADO
+        double credito = 0;
+        for (ContaCorrente contaCorrente : contas) {
+            if (contaCorrente.saldo() < 0){
+                credito += contaCorrente.limiteTotal() + contaCorrente.saldo();
+            }
+            else {
+                credito += contaCorrente.limiteTotal();
+            }
+        }
+        return credito;
     }
 
     /**
@@ -124,7 +133,31 @@ public class PessoaFisica {
      * @return String com o status financeiro do cliente
      */
     public String status() {
-        //TODO
+        //TODO TERMINADO
+        int contasTotais = 0;
+        int contasNegativas = 0;
+        double porcentagem = 0;
+        for (ContaCorrente contaCorrente : contas) {
+            contasTotais += 1;
+            if (contaCorrente.saldo() < 0){
+                contasNegativas += 1;
+            }
+        }
+        porcentagem = (double)contasNegativas / contasTotais;
+
+        if (porcentagem > 0.75){
+            return "Pessimo";
+        }
+        else if (porcentagem > 0.5 && porcentagem <= 0.75){
+                return "Ruim";
+            }
+        else if (porcentagem <= 0.5 && porcentagem > 0.1){
+                return "Regular";
+            }
+        else if (porcentagem <= 0.1){
+                return "Bom";
+            }
+
         return "";
     }
 
@@ -159,4 +192,4 @@ public class PessoaFisica {
             nome, CPF, status(), contas.size(), saldoTotal(), tarifa()
         );
     }
-}
+}   

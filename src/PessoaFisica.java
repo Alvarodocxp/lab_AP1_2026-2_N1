@@ -1,3 +1,4 @@
+import java.lang.classfile.instruction.SwitchCase;
 import java.util.LinkedList;
 /** 
 * MIT License
@@ -107,8 +108,15 @@ public class PessoaFisica {
      * @return Double não negativo.
      */
     public double credito() {
-        //TODO
-        return 0;
+        double restConta = 0;
+        for (ContaCorrente contaCorrente : contas){
+            if (contaCorrente.saldo() < 0){
+                restConta = contaCorrente.saldo()+contaCorrente.limiteTotal(); 
+            }
+            restConta += contaCorrente.limiteTotal();
+        }
+
+        return restConta;
     }
 
     /**
@@ -124,8 +132,31 @@ public class PessoaFisica {
      * @return String com o status financeiro do cliente
      */
     public String status() {
-        //TODO
-        return "";
+        int contaNegativa = 0;
+        for (ContaCorrente contaCorrente : contas){
+            if (contaCorrente.saldo()<0){
+                contaNegativa ++;
+            }
+        }
+        int tamanho = contas.size();
+        double porcentagem = (contaNegativa*100)/tamanho;
+
+        if (porcentagem <= 10){
+            return "Bom";
+        }
+
+        else if (porcentagem > 10 && porcentagem <=50){
+            return "Regular";
+        }
+
+        else if (porcentagem > 50 && porcentagem <=75){
+            return "Ruim";
+        }
+
+        else {
+            return "Péssimo";
+        }
+
     }
 
     /**
